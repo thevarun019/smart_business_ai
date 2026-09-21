@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartBiz AI - School Business & Predictive Analytics Suite</title>
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Canvas Confetti for billing completion feedback -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace']
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Smooth transitions & custom scrollbar */
+        * {
+            scroll-behavior: smooth;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+    <!-- Top Academic Ribbon -->
+    <header class="no-print bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white text-xs py-2 px-4 border-b border-indigo-900/50 shadow-sm">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center space-x-2">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/30 text-indigo-200 border border-indigo-400/40">
+                    <i data-lucide="award" class="w-3.5 h-3.5 mr-1 text-amber-400"></i> School Project
+                </span>
+                <span class="font-medium text-slate-300">Business Studies & Applied Informatics • Python to Web Transformation</span>
+            </div>
+            <div class="flex items-center space-x-4 text-slate-300">
+                <span class="hidden sm:inline"><i data-lucide="check-circle" class="w-3 h-3 inline mr-1 text-emerald-400"></i>Live Predictive AI Engine</span>
+                <span class="text-indigo-400">|</span>
+                <button onclick="openStudentModal()" class="hover:text-white transition flex items-center font-medium underline underline-offset-2">
+                    <i data-lucide="user" class="w-3.5 h-3.5 mr-1 text-indigo-400"></i> <span id="headerStudentSummary">Student: Ananya Sharma (Class 11-A)</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Header -->
+    <nav class="no-print glass-card sticky top-0 z-40 border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                <!-- Brand Title -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-700 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-200 shrink-0">
+                        <i data-lucide="trending-up" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">SmartBiz <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">AI</span></h1>
+                            <span class="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-200 hidden sm:inline-block">v2.4 Suite</span>
+                        </div>
+                        <p class="text-xs text-slate-500 hidden sm:block">Intelligent Retail Management & Predictive Sales Analytics</p>
+                    </div>
+                </div>
+
+                <!-- Action Controls -->
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <button onclick="printReport()" class="hidden md:inline-flex items-center px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl text-slate-700 bg-slate-100 hover:bg-slate-200 transition shadow-sm border border-slate-200">
+                        <i data-lucide="printer" class="w-4 h-4 mr-1.5 text-slate-500"></i>
+                        <span>Print Report</span>
+                    </button>
+                    <button onclick="openStudentModal()" class="inline-flex items-center px-3 py-2 text-xs sm:text-sm font-semibold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 transition shadow-md shadow-indigo-200">
+                        <i data-lucide="edit-3" class="w-4 h-4 sm:mr-1.5"></i>
+                        <span class="hidden sm:inline">Student Profile</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Top Navigation Tabs Removed -->v>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 pb-24 space-y-6">
+
+        <!-- Student Showcase Info Card -->
+        <section class="glass-card rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200/90 flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-gradient-to-r from-white via-indigo-50/30 to-purple-50/20">
+            <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-extrabold text-xl shadow-inner">
+                    <span id="studentAvatarInitials">AS</span>
+                </div>
+                <div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <h2 class="text-base sm:text-lg font-bold text-slate-900" id="cardStudentName">Ananya Sharma</h2>
+                        <span class="text-xs px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-800 font-semibold" id="cardStudentClass">Class 11 - Commerce A</span>
+                        <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold" id="cardStudentRoll">Roll No: 24</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-0.5 flex items-center" id="cardSchoolName">
+                        <i data-lucide="school" class="w-3.5 h-3.5 mr-1 text-slate-400"></i> Delhi Public School, R.K. Puram • Business Studies Project
+                    </p>
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 text-xs">
+                <div class="bg-white/80 border border-slate-200 rounded-xl px-3 py-1.5 text-slate-600">
+                    <span class="text-slate-400 block text-[10px] uppercase font-semibold">Teacher / Guide</span>
+                    <span class="font-medium text-slate-800" id="cardTeacherName">Mrs. Rekha Gupta</span>
+                </div>
+                <div class="bg-white/80 border border-slate-200 rounded-xl px-3 py-1.5 text-slate-600">
+                    <span class="text-slate-400 block text-[10px] uppercase font-semibold">Algorithm Base</span>
+                    <span class="font-medium text-indigo-600">Moving Average + 10% Trend</span>
+                </div>
+                <button onclick="openStudentModal()" class="px-3 py-1.5 rounded-xl border border-indigo-300 text-indigo-700 hover:bg-indigo-50 transition font-semibold">
+                    Change Details
+                </button>
+            </div>
+        </section>
+
+        <!-- TAB 1: SALES PREDICTION & AI FORECASTING -->
+        <section id="tab-sales" class="tab-content space-y-6">
+            <!-- Header Intro -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-900 flex items-center">
+                        <i data-lucide="line-chart" class="w-6 h-6 mr-2 text-indigo-600"></i>
+                        Module 1: Sales Prediction & Machine Learning Forecast
+                    </h3>
+                    <p class="text-xs sm:text-sm text-slate-500">
+                        Based on Python function <code class="font-mono bg-slate-100 px-1.5 py-0.5 rounded text-indigo-600">sales_prediction()</code>: Calculates 3-month mean & forecasts next month with dynamic market growth.
+                    </p>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="loadSalesPreset('standard')" class="text-xs px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium">Regular Trend</button>
+                    <button onclick="loadSalesPreset('festival')" class="text-xs px-2.5 py-1.5 rounded-lg bg-indigo-100 hover:bg-indigo-200 text-indigo-800 font-medium">Diwali Surge</button>
+                    <button onclick="loadSalesPreset('lean')" class="text-xs px-2.5 py-1.5 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-800 font-medium">Monsoon Dip</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Left Column: Input Form & Formula -->
+                <div class="lg:col-span-4 space-y-5">
+                    <div class="glass-card rounded-2xl p-5 shadow-sm border border-slate-200">
+                        <h4 class="text-sm font-bold uppercase tracking-wider text-slate-700 mb-4 flex items-center">
+                            <i data-lucide="sliders" class="w-4 h-4 mr-2 text-indigo-500"></i> Enter Quarterly Sales (₹ INR)
+                        </h4>
+
+                        <div class="space-y-3.5">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1 flex justify-between">
+                                    <span>Month 1: January (s1)</span>
+                                    <span class="text-slate-400">Quarter Start</span>
+                                </label>
+                                <div class="relative rounded-xl shadow-sm">
+                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-bold">₹</span>
+                                    <input type="number" id="saleJan" value="25000" oninput="calculateSalesPrediction()" class="w-full pl-8 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white text-sm font-semibold transition" placeholder="e.g. 25000">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1 flex justify-between">
+                                    <span>Month 2: February (s2)</span>
+                                    <span class="text-slate-400">Mid Quarter</span>
+                                </label>
+                                <div class="relative rounded-xl shadow-sm">
+                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-bold">₹</span>
+                                    <input type="number" id="saleFeb" value="28000" oninput="calculateSalesPrediction()" class="w-full pl-8 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white text-sm font-semibold transition" placeholder="e.g. 28000">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1 flex justify-between">
+                                    <span>Month 3: March (s3)</span>
+                                    <span class="text-slate-400">Quarter End</span>
+                                </label>
+                                <div class="relative rounded-xl shadow-sm">
+                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-bold">₹</span>
+                                    <input type="number" id="saleMar" value="31000" oninput="calculateSalesPrediction()" class="w-full pl-8 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:bg-white text-sm font-semibold transition" placeholder="e.g. 31000">
+                                </div>
+                            </div>
+
+                            <!-- Growth Multiplier Slider -->
+                            <div class="pt-2 border-t border-slate-100">
+                                <div class="flex justify-between items-center text-xs font-semibold text-slate-700 mb-1.5">
+                                    <span>Trend Multiplier:</span>
+                                    <span id="growthMultiplierLabel" class="px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-800 font-mono font-bold">+10% (1.10x)</span>
+                                </div>
+                                <input type="range" id="growthSlider" min="0.8" max="1.3" step="0.05" value="1.1" oninput="updateMultiplierFromSlider()" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600">
+                                <div class="flex justify-between text-[10px] text-slate-400 mt-1">
+                                    <span>-20% (Bearish)</span>
+                                    <span class="font-bold text-indigo-600">1.10x (Python Base)</span>
+                                    <span>+30% (Boom)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Formula Note Box -->
+                        <div class="mt-5 p-3 rounded-xl bg-indigo-50/70 border border-indigo-100 text-indigo-900 text-xs font-mono space-y-1">
+                            <p class="font-bold text-indigo-950 flex items-center">
+                                <i data-lucide="function-square" class="w-3.5 h-3.5 mr-1 text-indigo-600"></i> Mathematical Logic:
+                            </p>
+                            <p class="text-slate-600">average = (s1 + s2 + s3) / 3</p>
+                            <p class="text-slate-600">predicted = average * 1.10</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Metrics Cards & Chart -->
+                <div class="lg:col-span-8 space-y-5">
+                    <!-- Key KPI Summary Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm relative overflow-hidden">
+                            <div class="absolute -right-3 -top-3 w-16 h-16 bg-slate-100 rounded-full opacity-50 pointer-events-none"></div>
+                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Average Sales</span>
+                            <div class="text-xl sm:text-2xl font-extrabold text-slate-800 mt-1" id="kpiAverageSales">₹28,000</div>
+                            <div class="text-xs text-slate-500 mt-1 flex items-center">
+                                <i data-lucide="sigma" class="w-3.5 h-3.5 mr-1 text-slate-400"></i> Base 3-Month Mean
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-indigo-600 to-indigo-700 text-white rounded-2xl p-4 shadow-md shadow-indigo-100 relative overflow-hidden">
+                            <div class="absolute -right-3 -top-3 w-16 h-16 bg-white/10 rounded-full pointer-events-none"></div>
+                            <span class="text-xs font-medium text-indigo-200 uppercase tracking-wider block">Predicted Next Month</span>
+                            <div class="text-xl sm:text-2xl font-black mt-1" id="kpiPredictedSales">₹30,800</div>
+                            <div class="text-xs text-indigo-100 mt-1 flex items-center">
+                                <i data-lucide="sparkles" class="w-3.5 h-3.5 mr-1 text-amber-300"></i>
+                                <span id="kpiGrowthDelta">+₹2,800 (+10.0%)</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm">
+                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Estimated Profit (28%)</span>
+                            <div class="text-xl sm:text-2xl font-extrabold text-emerald-600 mt-1" id="kpiProjectedProfit">₹8,624</div>
+                            <div class="text-xs text-emerald-600 mt-1 flex items-center font-medium">
+                                <i data-lucide="trending-up" class="w-3.5 h-3.5 mr-1"></i> Net Operating Margin
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chart.js Visualizer Canvas -->
+                    <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 mb-4 gap-2">
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-800 flex items-center">
+                                    <i data-lucide="activity" class="w-4 h-4 mr-2 text-indigo-600"></i>
+                                    Q1 Actual vs Q2 Month 4 Projected Sales Curve
+                                </h4>
+                                <p class="text-xs text-slate-500">Historical performance with AI predictive trend extrapolation</p>
+                            </div>
+                            <span class="inline-flex items-center text-xs font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-200">
+                                <span class="w-2 h-2 rounded-full bg-indigo-600 animate-ping mr-2"></span> Real-time Model
+                            </span>
+                        </div>
+                        <div class="h-64 sm:h-72 w-full">
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic AI Recommendation Card (From Python condition) -->
+                    <div id="aiSuggestionBox" class="rounded-2xl p-5 border transition-all duration-300 bg-emerald-50/80 border-emerald-200 text-emerald-950">
+                        <div class="flex items-start space-x-3.5">
+                            <div id="aiSuggestionIcon" class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-200">
+                                <i data-lucide="zap" class="w-5 h-5"></i>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-[11px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-200 text-emerald-900" id="aiSuggestionTag">POSITIVE EXPANSION DETECTED</span>
+                                    <span class="text-xs text-slate-500">Python Rule: <code class="font-mono text-emerald-800 font-semibold">if predicted &gt; average</code></span>
+                                </div>
+                                <h5 class="text-base font-bold text-slate-900" id="aiSuggestionHeading">AI Suggestion: Increase stock and marketing.</h5>
+                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed" id="aiSuggestionDesc">
+                                    The predicted revenue of ₹30,800 surpasses the 3-month baseline mean. We strongly recommend allocating 15% more budget towards wholesale inventory procurement and initiating localized social media advertisements to fulfill high anticipated consumer demand.
+                                </p>
+                                <div class="pt-2 flex flex-wrap gap-2 text-xs">
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-white border border-emerald-200 text-emerald-800 font-medium">
+                                        <i data-lucide="check" class="w-3.5 h-3.5 mr-1 text-emerald-600"></i> Stock Buffer +15%
+                                    </span>
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-white border border-emerald-200 text-emerald-800 font-medium">
+                                        <i data-lucide="check" class="w-3.5 h-3.5 mr-1 text-emerald-600"></i> Run Meta & Google Ads
+                                    </span>
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-white border border-emerald-200 text-emerald-800 font-medium">
+                                        <i data-lucide="check" class="w-3.5 h-3.5 mr-1 text-emerald-600"></i> Supplier Early Booking
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: SMART POS CASH COUNTER & INVOICE -->
+        <section id="tab-billing" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-900 flex items-center">
+                        <i data-lucide="shopping-cart" class="w-6 h-6 mr-2 text-indigo-600"></i>
+                        Module 2: AI Cash Counter & Point of Sale Generator
+                    </h3>
+                    <p class="text-xs sm:text-sm text-slate-500">
+                        Based on Python function <code class="font-mono bg-slate-100 px-1.5 py-0.5 rounded text-indigo-600">billing()</code>: Real-time calculation of <code class="font-mono text-slate-700">total = price * quantity</code> with printable itemized tax receipt.
+                    </p>
+                </div>
+                <button onclick="clearBillingCart()" class="text-xs px-3 py-1.5 rounded-xl border border-rose-200 text-rose-600 hover:bg-rose-50 font-medium flex items-center w-fit">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5 mr-1"></i> Clear Cart
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Left: Catalog & Quick Add -->
+                <div class="lg:col-span-5 space-y-5">
+                    <!-- Manual Item Input Form -->
+                    <div class="glass-card rounded-2xl p-5 shadow-sm border border-slate-200">
+                        <h4 class="text-sm font-bold uppercase tracking-wider text-slate-700 mb-4 flex items-center">
+                            <i data-lucide="plus-circle" class="w-4 h-4 mr-2 text-indigo-600"></i> Add Item to Cart
+                        </h4>
+                        <form id="addItemForm" onsubmit="handleManualAddItem(event)" class="space-y-3.5">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Product Name</label>
+                                <input type="text" id="billProductName" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm font-medium" placeholder="e.g. Premium Spiral Notebook">
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Unit Price (₹)</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-bold">₹</span>
+                                        <input type="number" id="billProductPrice" min="1" step="0.5" required class="w-full pl-8 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm font-semibold" placeholder="120">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Quantity</label>
+                                    <input type="number" id="billProductQty" min="1" value="1" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm font-semibold" placeholder="1">
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl text-sm transition shadow-md shadow-indigo-100 flex items-center justify-center">
+                                <i data-lucide="plus" class="w-4 h-4 mr-1.5"></i> Add Product
+                            </button>
+                        </form>
+
+                        <!-- Quick Catalog Fast-Picks -->
+                        <div class="mt-5 pt-4 border-t border-slate-100">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2.5">Quick Inventory Shortcuts</span>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="quickAddCart('Executive Notebook Pack', 180)" class="p-2.5 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/50 text-left transition flex items-center justify-between group">
+                                    <div>
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-indigo-700">Notebook Pack</p>
+                                        <p class="text-[11px] text-slate-500">₹180 / pack</p>
+                                    </div>
+                                    <i data-lucide="plus" class="w-4 h-4 text-slate-400 group-hover:text-indigo-600"></i>
+                                </button>
+                                <button onclick="quickAddCart('Parker Rollerball Pen', 250)" class="p-2.5 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/50 text-left transition flex items-center justify-between group">
+                                    <div>
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-indigo-700">Parker Pen</p>
+                                        <p class="text-[11px] text-slate-500">₹250 / unit</p>
+                                    </div>
+                                    <i data-lucide="plus" class="w-4 h-4 text-slate-400 group-hover:text-indigo-600"></i>
+                                </button>
+                                <button onclick="quickAddCart('Scientific Calculator fx-82MS', 750)" class="p-2.5 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/50 text-left transition flex items-center justify-between group">
+                                    <div>
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-indigo-700">Calculator</p>
+                                        <p class="text-[11px] text-slate-500">₹750 / pc</p>
+                                    </div>
+                                    <i data-lucide="plus" class="w-4 h-4 text-slate-400 group-hover:text-indigo-600"></i>
+                                </button>
+                                <button onclick="quickAddCart('Eco Stainless Water Bottle', 420)" class="p-2.5 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/50 text-left transition flex items-center justify-between group">
+                                    <div>
+                                        <p class="text-xs font-bold text-slate-800 group-hover:text-indigo-700">Water Bottle</p>
+                                        <p class="text-[11px] text-slate-500">₹420 / pc</p>
+                                    </div>
+                                    <i data-lucide="plus" class="w-4 h-4 text-slate-400 group-hover:text-indigo-600"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Active Cart Table & Grand Total Summary -->
+                <div class="lg:col-span-7 space-y-5">
+                    <div class="glass-card rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between min-h-[420px]">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h4 class="text-sm font-bold uppercase tracking-wider text-slate-800 flex items-center">
+                                    <i data-lucide="list-ordered" class="w-4 h-4 mr-2 text-indigo-600"></i> Active Billing Items
+                                </h4>
+                                <span class="text-xs font-medium text-slate-500" id="cartItemCountLabel">2 Items</span>
+                            </div>
+
+                            <!-- Cart Items Table -->
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs sm:text-sm">
+                                    <thead>
+                                        <tr class="border-b border-slate-200 text-slate-400 font-semibold uppercase text-[11px]">
+                                            <th class="py-2.5">Item Name</th>
+                                            <th class="py-2.5 text-right">Price</th>
+                                            <th class="py-2.5 text-center">Qty</th>
+                                            <th class="py-2.5 text-right">Subtotal</th>
+                                            <th class="py-2.5 text-center w-10"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cartTableBody" class="divide-y divide-slate-100">
+                                        <!-- Rendered dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Cart Totals & Checkout -->
+                        <div class="mt-6 pt-4 border-t border-slate-200 space-y-3">
+                            <div class="flex justify-between items-center text-xs text-slate-600">
+                                <span>Base Subtotal:</span>
+                                <span class="font-bold text-slate-800" id="billSubtotalDisplay">₹610.00</span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs text-slate-600">
+                                <div class="flex items-center space-x-2">
+                                    <span>GST / Sales Tax:</span>
+                                    <select id="billGstSelect" onchange="recalculateCartTotals()" class="text-xs bg-slate-100 border border-slate-200 rounded px-1.5 py-0.5 font-medium">
+                                        <option value="0">0% (Exempt)</option>
+                                        <option value="5" selected>5% (Standard Retail)</option>
+                                        <option value="12">12% (Electronics)</option>
+                                        <option value="18">18% (Luxury)</option>
+                                    </select>
+                                </div>
+                                <span class="font-bold text-slate-800" id="billGstAmountDisplay">₹30.50</span>
+                            </div>
+                            <div class="flex justify-between items-center text-base sm:text-lg font-black text-slate-900 pt-2 border-t border-slate-200">
+                                <span>Final Bill Amount:</span>
+                                <span class="text-indigo-600 text-xl font-extrabold" id="billGrandTotalDisplay">₹640.50</span>
+                            </div>
+
+                            <!-- Generate Official Invoice Button -->
+                            <div class="pt-2">
+                                <button onclick="openReceiptModal()" class="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-xl text-sm shadow-md shadow-indigo-200 transition flex items-center justify-center space-x-2">
+                                    <i data-lucide="printer" class="w-4 h-4"></i>
+                                    <span>Generate Official Cash Memo / Tax Receipt</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: DYNAMIC OFFERS & DISCOUNT MATRIX -->
+        <section id="tab-discount" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-900 flex items-center">
+                        <i data-lucide="percent" class="w-6 h-6 mr-2 text-indigo-600"></i>
+                        Module 3: Dynamic Offers & Discount Matrix
+                    </h3>
+                    <p class="text-xs sm:text-sm text-slate-500">
+                        Based on Python function <code class="font-mono bg-slate-100 px-1.5 py-0.5 rounded text-indigo-600">discount()</code>: Tiered evaluation (5%, 10%, 15%, 20%) to optimize customer spending and average order value.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Left: Amount Input & Tier Visualization -->
+                <div class="lg:col-span-5 space-y-5">
+                    <div class="glass-card rounded-2xl p-5 shadow-sm border border-slate-200">
+                        <h4 class="text-sm font-bold uppercase tracking-wider text-slate-700 mb-4 flex items-center">
+                            <i data-lucide="banknote" class="w-4 h-4 mr-2 text-indigo-500"></i> Test Purchase Amount
+                        </h4>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Enter Purchase Amount (₹)</label>
+                            <div class="relative rounded-xl shadow-sm">
+                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-bold text-base">₹</span>
+                                <input type="number" id="discountInputAmount" value="3800" min="0" oninput="calculateDiscountEngine()" class="w-full pl-9 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 text-base font-bold text-slate-800 transition" placeholder="e.g. 3800">
+                            </div>
+                        </div>
+
+                        <!-- Quick Test Amount Buttons -->
+                        <div class="mt-4">
+                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-2">Preset Tier Samples</span>
+                            <div class="grid grid-cols-4 gap-2 text-xs">
+                                <button onclick="setDiscountAmount(650)" class="py-2 rounded-lg bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 font-bold text-slate-700 border border-slate-200 transition">₹650 (5%)</button>
+                                <button onclick="setDiscountAmount(1800)" class="py-2 rounded-lg bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 font-bold text-slate-700 border border-slate-200 transition">₹1.8k (10%)</button>
+                                <button onclick="setDiscountAmount(3800)" class="py-2 rounded-lg bg-indigo-100 text-indigo-800 font-bold border border-indigo-200 transition">₹3.8k (15%)</button>
+                                <button onclick="setDiscountAmount(6200)" class="py-2 rounded-lg bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 font-bold text-slate-700 border border-slate-200 transition">₹6.2k (20%)</button>
+                            </div>
+                        </div>
+
+                        <!-- Next Tier Progress Bar -->
+                        <div class="mt-6 p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                            <div class="flex justify-between items-center text-xs font-bold text-slate-700">
+                                <span class="flex items-center"><i data-lucide="zap" class="w-3.5 h-3.5 mr-1 text-amber-500"></i> Next Tier Unlock Progress</span>
+                                <span id="nextTierDiffLabel" class="text-indigo-600">Add ₹1,200 for 20%</span>
+                            </div>
+                            <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                                <div id="tierProgressBar" class="bg-gradient-to-r from-indigo-500 to-purple-600 h-full rounded-full transition-all duration-500" style="width: 76%;"></div>
+                            </div>
+                            <p class="text-[11px] text-slate-500" id="tierProgressTip">
+                                You are ₹1,200 away from unlocking Tier 4 Gold Discount (20% Savings).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Active Matrix Breakdown -->
+                <div class="lg:col-span-7 space-y-5">
+                    <!-- Discount Summary Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm">
+                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Discount Rate</span>
+                            <div class="text-2xl font-black text-indigo-600 mt-1" id="discountRateBadge">15% OFF</div>
+                            <div class="text-xs text-slate-500 mt-1" id="discountTierTitle">Silver Tier Member</div>
+                        </div>
+
+                        <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm">
+                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Total Savings</span>
+                            <div class="text-2xl font-black text-emerald-600 mt-1" id="discountSavingsDisplay">₹570.00</div>
+                            <div class="text-xs text-emerald-600 mt-1 font-medium flex items-center">
+                                <i data-lucide="sparkles" class="w-3 h-3 mr-1"></i> Pocket Savings
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-2xl p-4 shadow-md">
+                            <span class="text-xs font-medium text-indigo-200 uppercase tracking-wider block">Final Payable</span>
+                            <div class="text-2xl font-black mt-1" id="discountFinalPayableDisplay">₹3,230.00</div>
+                            <div class="text-xs text-slate-400 mt-1">Amount - Discount</div>
+                        </div>
+                    </div>
+
+                    <!-- Tier Ladder Visualization -->
+                    <div class="glass-card rounded-2xl p-5 shadow-sm border border-slate-200">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 flex items-center justify-between">
+                            <span>Python Decision Structure (if-elif-else)</span>
+                            <span class="text-indigo-600">Live Evaluation</span>
+                        </h4>
+                        <div class="space-y-2.5" id="tierLadderContainer">
+                            <!-- Tier 4: >= 5000 -->
+                            <div id="tierCard4" class="p-3.5 rounded-xl border transition flex items-center justify-between border-slate-200 bg-white">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xs">20%</div>
+                                    <div>
+                                        <p class="text-xs font-bold text-slate-800">Gold Tier: Purchase Amount ≥ ₹5,000</p>
+                                        <p class="text-[11px] text-slate-400 font-mono">if amount &gt;= 5000: d = 20</p>
+                                    </div>
+                                </div>
+                                <span class="tier-status-pill text-xs font-semibold px-2 py-0.5 rounded-full text-slate-400 bg-slate-100">Inactive</span>
+                            </div>
+
+                            <!-- Tier 3: >= 3000 -->
+                            <div id="tierCard3" class="p-3.5 rounded-xl border transition flex items-center justify-between border-indigo-500 bg-indigo-50/50 shadow-sm">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold text-xs">15%</div>
+                                    <div>
+                                        <p class="text-xs font-bold text-indigo-900">Silver Tier: Purchase Amount ≥ ₹3,000</p>
+                                        <p class="text-[11px] text-indigo-600 font-mono">elif amount &gt;= 3000: d = 15</p>
+                                    </div>
+                                </div>
+                                <span class="tier-status-pill text-xs font-bold px-2 py-0.5 rounded-full text-indigo-700 bg-indigo-100">CURRENT TIER</span>
+                            </div>
+
+                            <!-- Tier 2: >= 1000 -->
+                            <div id="tierCard2" class="p-3.5 rounded-xl border transition flex items-center justify-between border-slate-200 bg-white">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 rounded-lg bg-orange-100 text-orange-700 flex items-center justify-center font-bold text-xs">10%</div>
+                                    <div>
+                                        <p class="text-xs font-bold text-slate-800">Bronze Tier: Purchase Amount ≥ ₹1,000</p>
+                                        <p class="text-[11px] text-slate-400 font-mono">elif amount &gt;= 1000: d = 10</p>
+                                    </div>
+                                </div>
+                                <span class="tier-status-pill text-xs font-semibold px-2 py-0.5 rounded-full text-slate-400 bg-slate-100">Inactive</span>
+                            </div>
+
+                            <!-- Tier 1: else -->
+                            <div id="tierCard1" class="p-3.5 rounded-xl border transition flex items-center justify-between border-slate-200 bg-white">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-xs">5%</div>
+                                    <div>
+                                        <p class="text-xs font-bold text-slate-800">Base Tier: Purchases Under ₹1,000</p>
+                                        <p class="text-[11px] text-slate-400 font-mono">else: d = 5</p>
+                                    </div>
+                                </div>
+                                <span class="tier-status-pill text-xs font-semibold px-2 py-0.5 rounded-full text-slate-400 bg-slate-100">Inactive</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: STOCK & INVENTORY MANAGEMENT -->
+        <section id="tab-stock" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-900 flex items-center">
+                        <i data-lucide="package-search" class="w-6 h-6 mr-2 text-indigo-600"></i>
+                        Module 4: Stock & Inventory Management Monitor
+                    </h3>
+                    <p class="text-xs sm:text-sm text-slate-500">
+                        Based on Python function <code class="font-mono bg-slate-100 px-1.5 py-0.5 rounded text-indigo-600">stock()</code>: Threshold validation (<code class="font-mono text-slate-700">if quantity &lt;= 5: Low stock! Reorder soon</code>).
+                    </p>
+                </div>
+                <button onclick="openAddStockModal()" class="text-xs px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold shadow-sm flex items-center w-fit">
+                    <i data-lucide="plus" class="w-3.5 h-3.5 mr-1.5"></i> Add Inventory Item
+                </button>
+            </div>
+
+            <!-- Urgent Low Stock Notification Bar -->
+            <div id="urgentStockBanner" class="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-900 flex items-start space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-rose-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+                    <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                </div>
+                <div class="flex-grow">
+                    <div class="flex items-center justify-between">
+                        <h5 class="text-sm font-bold">Immediate Attention Required: 2 Items at Reorder Level!</h5>
+                        <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-rose-200 text-rose-800">Threshold: &le; 5 units</span>
+                    </div>
+                    <p class="text-xs text-rose-700 mt-0.5" id="lowStockItemsNames">
+                        Low stock detected for: <strong>Graph Paper Reams (3 in stock)</strong> and <strong>Drafting Geometry Kits (4 in stock)</strong>. Replenish immediately to prevent sales interruption.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Left: Quick Stock Tester -->
+                <div class="lg:col-span-4 space-y-5">
+                    <div class="glass-card rounded-2xl p-5 shadow-sm border border-slate-200">
+                        <h4 class="text-sm font-bold uppercase tracking-wider text-slate-700 mb-3 flex items-center">
+                            <i data-lucide="calculator" class="w-4 h-4 mr-2 text-indigo-600"></i> Direct Python Stock Tester
+                        </h4>
+                        <div class="space-y-3.5">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Product Name</label>
+                                <input type="text" id="testStockName" value="Parker Ballpoint Refills" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Available Quantity (units)</label>
+                                <input type="number" id="testStockQty" value="4" min="0" oninput="runSingleStockTest()" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                        </div>
+
+                        <!-- Result output simulating Python print -->
+                        <div class="mt-4 p-4 rounded-xl border transition" id="singleStockResultCard">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-3 h-3 rounded-full bg-rose-500 animate-pulse" id="testStockIndicator"></span>
+                                <span class="text-xs font-bold uppercase tracking-wider text-rose-700" id="testStockStatusBadge">Low Stock! Reorder Soon</span>
+                            </div>
+                            <p class="text-xs text-slate-600 mt-1 font-mono" id="testStockConsoleOutput">
+                                AI Suggestion: Low stock! Reorder soon.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Active Store Inventory Table -->
+                <div class="lg:col-span-8">
+                    <div class="glass-card rounded-2xl p-5 shadow-sm border border-slate-200">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="text-sm font-bold uppercase tracking-wider text-slate-800 flex items-center">
+                                    <i data-lucide="archive" class="w-4 h-4 mr-2 text-indigo-600"></i> Store Stock Inventory
+                                </h4>
+                                <p class="text-xs text-slate-500">Dynamic inventory tracker with single-click stock adjustments</p>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="inline-flex items-center text-xs text-slate-500">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 mr-1.5"></span> &gt;5 Safe
+                                </span>
+                                <span class="inline-flex items-center text-xs text-slate-500">
+                                    <span class="w-2 h-2 rounded-full bg-rose-500 mr-1.5"></span> &le;5 Low
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Table -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs sm:text-sm">
+                                <thead>
+                                    <tr class="border-b border-slate-200 text-slate-400 font-semibold uppercase text-[11px]">
+                                        <th class="py-2.5">Product</th>
+                                        <th class="py-2.5">Category</th>
+                                        <th class="py-2.5 text-center">In Stock</th>
+                                        <th class="py-2.5">AI Status</th>
+                                        <th class="py-2.5 text-right">Stock Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inventoryTableBody" class="divide-y divide-slate-100">
+                                    <!-- Rendered dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+    </main>
+
+    <!-- Academic Footer -->
+    <footer class="no-print mt-12 bg-white border-t border-slate-200 py-6 text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-2">
+                <div class="w-6 h-6 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold text-[10px]">SB</div>
+                <p>SmartBiz AI Suite • Designed for Secondary / Higher Secondary Business & Informatics Project</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span>Created with Python 3 Logic + Modern HTML5</span>
+                <span>•</span>
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-indigo-600 hover:underline flex items-center">
+                    Back to Top <i data-lucide="arrow-up" class="w-3 h-3 ml-1"></i>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL 1: STUDENT PROFILE CUSTOMIZER -->
+    <div id="studentModal" class="no-print fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="user-check" class="w-5 h-5 text-indigo-600"></i>
+                    <h3 class="text-lg font-bold text-slate-900">Student & School Details</h3>
+                </div>
+                <button onclick="closeStudentModal()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <p class="text-xs text-slate-500">Customize these details to match your sister's actual school credentials for her presentation.</p>
+
+            <form onsubmit="saveStudentProfile(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Student Full Name</label>
+                    <input type="text" id="modalInputStudentName" value="Ananya Sharma" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Class & Section</label>
+                        <input type="text" id="modalInputStudentClass" value="Class 11 - Commerce A" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Roll Number</label>
+                        <input type="text" id="modalInputStudentRoll" value="24" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">School Name & City</label>
+                    <input type="text" id="modalInputSchoolName" value="Delhi Public School, R.K. Puram" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Project Guide / Teacher Name</label>
+                    <input type="text" id="modalInputTeacherName" value="Mrs. Rekha Gupta" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div class="pt-2 flex justify-end space-x-2">
+                    <button type="button" onclick="closeStudentModal()" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 text-xs font-semibold">Cancel</button>
+                    <button type="submit" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-md shadow-indigo-200">Save Credentials</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: PRINTABLE OFFICIAL TAX INVOICE -->
+    <div id="receiptModal" class="no-print fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4 my-8">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="receipt" class="w-5 h-5 text-indigo-600"></i>
+                    <h3 class="text-base font-bold text-slate-900">Official Cash Counter Invoice</h3>
+                </div>
+                <button onclick="closeReceiptModal()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Receipt Card Content (Can be printed) -->
+            <div id="printableReceiptArea" class="bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-4 font-mono text-xs text-slate-800">
+                <!-- Header -->
+                <div class="text-center space-y-0.5 border-b border-dashed border-slate-300 pb-3">
+                    <h4 class="font-black text-sm uppercase tracking-widest text-slate-950">SMARTBIZ RETAIL STORE</h4>
+                    <p class="text-[11px] text-slate-500">GSTIN: 07AAACS1429B1Z8 • INVOICE</p>
+                    <p class="text-[10px] text-slate-400" id="receiptStudentSchoolAffiliation">Delhi Public School Enterprise Lab</p>
+                </div>
+
+                <!-- Invoice Meta Details -->
+                <div class="flex justify-between text-[11px] text-slate-600 py-1">
+                    <div>
+                        <p>Invoice No: <strong id="receiptInvoiceNumber">#SB-2026-0941</strong></p>
+                        <p>Cashier: <strong id="receiptCashierName">Ananya Sharma</strong></p>
+                    </div>
+                    <div class="text-right">
+                        <p>Date: <span id="receiptDate">2026-09-21</span></p>
+                        <p>Payment: <strong>CASH COUNTER</strong></p>
+                    </div>
+                </div>
+
+                <!-- Itemized Breakdown -->
+                <div class="border-y border-dashed border-slate-300 py-2">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="text-[10px] uppercase text-slate-400 font-bold border-b border-slate-200">
+                                <th class="pb-1">Item</th>
+                                <th class="pb-1 text-center">Qty</th>
+                                <th class="pb-1 text-right">Rate</th>
+                                <th class="pb-1 text-right">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="receiptItemsBody" class="divide-y divide-slate-100">
+                            <!-- Items will be injected -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Totals -->
+                <div class="space-y-1 text-right text-xs pt-1">
+                    <div class="flex justify-between text-slate-500">
+                        <span>Items Subtotal:</span>
+                        <span id="receiptSubtotal">₹0.00</span>
+                    </div>
+                    <div class="flex justify-between text-slate-500">
+                        <span id="receiptGstPercentLabel">GST Tax (5%):</span>
+                        <span id="receiptGstAmount">₹0.00</span>
+                    </div>
+                    <div class="flex justify-between text-sm font-black text-slate-900 border-t border-slate-300 pt-1.5">
+                        <span>TOTAL AMOUNT:</span>
+                        <span id="receiptGrandTotal" class="text-indigo-700">₹0.00</span>
+                    </div>
+                </div>
+
+                <div class="text-center pt-2 text-[10px] text-slate-400 border-t border-dashed border-slate-300">
+                    <p>*** THANK YOU FOR VISITING ***</p>
+                    <p>Calculated using Python function billing()</p>
+                </div>
+            </div>
+
+            <!-- Print Actions -->
+            <div class="flex justify-end space-x-2 pt-2">
+                <button onclick="closeReceiptModal()" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 text-xs font-semibold">Close</button>
+                <button onclick="printOnlyReceipt()" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-md shadow-indigo-200 flex items-center">
+                    <i data-lucide="printer" class="w-3.5 h-3.5 mr-1.5"></i> Print Receipt
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: ADD INVENTORY PRODUCT -->
+    <div id="addStockModal" class="no-print fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="package-plus" class="w-5 h-5 text-indigo-600"></i>
+                    <h3 class="text-base font-bold text-slate-900">Add New Inventory Product</h3>
+                </div>
+                <button onclick="closeAddStockModal()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <form onsubmit="handleAddNewInventory(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Product Name</label>
+                    <input type="text" id="newInvName" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-500" placeholder="e.g. Oxford Mathematical Geometry Set">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Category</label>
+                    <select id="newInvCategory" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-500">
+                        <option value="Stationery">Stationery</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Daily Essentials">Daily Essentials</option>
+                        <option value="Books">Books</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Starting Stock Quantity (Units)</label>
+                    <input type="number" id="newInvQty" min="0" value="8" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold focus:ring-2 focus:ring-indigo-500">
+                    <p class="text-[11px] text-slate-400 mt-1">If &le; 5, Python logic will automatically flag as Low Stock!</p>
+                </div>
+                <div class="pt-2 flex justify-end space-x-2">
+                    <button type="button" onclick="closeAddStockModal()" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 text-xs font-semibold">Cancel</button>
+                    <button type="submit" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-md shadow-indigo-200">Add to System</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- In-App Notification Toast (Replaces browser alert) -->
+    <div id="toastNotification" class="fixed bottom-6 right-6 z-50 max-w-sm w-full bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl border border-slate-800 flex items-center space-x-3 transform transition-all duration-300 translate-y-24 opacity-0 pointer-events-none">
+        <div id="toastIconContainer" class="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0">
+            <i data-lucide="bell" class="w-4 h-4" id="toastIcon"></i>
+        </div>
+        <div class="flex-grow">
+            <p class="text-xs font-bold text-white" id="toastTitle">Notification</p>
+            <p class="text-[11px] text-slate-300" id="toastMessage">Operation executed successfully.</p>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // STATE STORE
+        // ==========================================
+        const state = {
+            student: {
+                name: "Ananya Sharma",
+                classSection: "Class 11 - Commerce A",
+                rollNo: "24",
+                school: "Delhi Public School, R.K. Puram",
+                teacher: "Mrs. Rekha Gupta"
+            },
+            sales: {
+                jan: 25000,
+                feb: 28000,
+                mar: 31000,
+                multiplier: 1.10
+            },
+            billing: {
+                items: [
+                    { id: 1, name: "Executive Notebook Pack", price: 180, qty: 2 },
+                    { id: 2, name: "Parker Rollerball Pen", price: 250, qty: 1 }
+                ],
+                gstRate: 5
+            },
+            inventory: [
+                { id: 101, name: "Graph Paper Reams (100 Sheets)", category: "Stationery", qty: 3 },
+                { id: 102, name: "Drafting Geometry Kits", category: "Stationery", qty: 4 },
+                { id: 103, name: "Scientific Calculators fx-82", category: "Electronics", qty: 14 },
+                { id: 104, name: "Eco Stainless Water Bottles", category: "Daily Essentials", qty: 9 },
+                { id: 105, name: "Highlighter Marker Sets (5-Pack)", category: "Stationery", qty: 18 },
+                { id: 106, name: "A4 Spiral Project Portfolios", category: "Stationery", qty: 2 }
+            ],
+            chartInstance: null
+        };
+
+        // ==========================================
+        // TOAST NOTIFICATION HELPER (NO BROWSER ALERT)
+        // ==========================================
+        function showToast(title, message, iconType = "check-circle") {
+            const toast = document.getElementById("toastNotification");
+            const titleEl = document.getElementById("toastTitle");
+            const msgEl = document.getElementById("toastMessage");
+            const iconEl = document.getElementById("toastIcon");
+
+            titleEl.textContent = title;
+            msgEl.textContent = message;
+
+            // Change icon
+            iconEl.setAttribute("data-lucide", iconType);
+            lucide.createIcons();
+
+            toast.classList.remove("translate-y-24", "opacity-0", "pointer-events-none");
+            toast.classList.add("translate-y-0", "opacity-100");
+
+            setTimeout(() => {
+                toast.classList.remove("translate-y-0", "opacity-100");
+                toast.classList.add("translate-y-24", "opacity-0", "pointer-events-none");
+            }, 3500);
+        }
+
+        // ==========================================
+        // TAB SWITCHING
+        // ==========================================
+        function switchTab(tabId) {
+            document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
+            document.querySelectorAll(".mobile-tab-btn").forEach(btn => {
+                btn.classList.remove("text-indigo-600");
+                btn.classList.add("text-slate-500");
+            });
+
+            const targetContent = document.getElementById(tabId);
+            const mobileTargetNav = document.getElementById(`mobile-nav-${tabId}`);
+
+            if (targetContent) targetContent.classList.remove("hidden");
+            if (mobileTargetNav) {
+                mobileTargetNav.classList.add("text-indigo-600");
+                mobileTargetNav.classList.remove("text-slate-500");
+            }
+
+            if (tabId === 'tab-sales' && state.chartInstance) {
+                setTimeout(() => state.chartInstance.resize(), 100);
+            }
+        }
+
+        // ==========================================
+        // MODULE 1: SALES PREDICTION LOGIC
+        // ==========================================
+        function calculateSalesPrediction() {
+            const s1 = parseFloat(document.getElementById("saleJan").value) || 0;
+            const s2 = parseFloat(document.getElementById("saleFeb").value) || 0;
+            const s3 = parseFloat(document.getElementById("saleMar").value) || 0;
+
+            state.sales.jan = s1;
+            state.sales.feb = s2;
+            state.sales.mar = s3;
+
+            // Python logic:
+            // average = (s1 + s2 + s3) / 3
+            // predicted = average * 1.10
+            const average = (s1 + s2 + s3) / 3;
+            const predicted = average * state.sales.multiplier;
+            const delta = predicted - average;
+            const pct = ((state.sales.multiplier - 1) * 100).toFixed(1);
+            const profit = predicted * 0.28; // Standard 28% margin
+
+            // Update KPI DOM
+            document.getElementById("kpiAverageSales").textContent = `₹${Math.round(average).toLocaleString('en-IN')}`;
+            document.getElementById("kpiPredictedSales").textContent = `₹${Math.round(predicted).toLocaleString('en-IN')}`;
+            document.getElementById("kpiProjectedProfit").textContent = `₹${Math.round(profit).toLocaleString('en-IN')}`;
+
+            const deltaSign = delta >= 0 ? "+" : "-";
+            document.getElementById("kpiGrowthDelta").textContent = `${deltaSign}₹${Math.abs(Math.round(delta)).toLocaleString('en-IN')} (${pct >= 0 ? '+' : ''}${pct}%)`;
+
+            // Python AI Suggestion logic:
+            // if predicted > average:
+            //     print("AI Suggestion: Increase stock and marketing.")
+            // else:
+            //     print("AI Suggestion: Review your marketing strategy.")
+            const suggestionBox = document.getElementById("aiSuggestionBox");
+            const tagEl = document.getElementById("aiSuggestionTag");
+            const headEl = document.getElementById("aiSuggestionHeading");
+            const descEl = document.getElementById("aiSuggestionDesc");
+            const iconDiv = document.getElementById("aiSuggestionIcon");
+
+            if (predicted > average) {
+                suggestionBox.className = "rounded-2xl p-5 border transition-all duration-300 bg-emerald-50/80 border-emerald-200 text-emerald-950";
+                iconDiv.className = "w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-200";
+                tagEl.className = "text-[11px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-200 text-emerald-900";
+                tagEl.textContent = "POSITIVE EXPANSION DETECTED";
+                headEl.textContent = "AI Suggestion: Increase stock and marketing.";
+                descEl.textContent = `The predicted revenue of ₹${Math.round(predicted).toLocaleString('en-IN')} surpasses the 3-month baseline average (₹${Math.round(average).toLocaleString('en-IN')}). We strongly recommend allocating 15% more budget towards wholesale inventory procurement and initiating localized marketing campaigns to fulfill high anticipated consumer demand.`;
+            } else {
+                suggestionBox.className = "rounded-2xl p-5 border transition-all duration-300 bg-amber-50/80 border-amber-200 text-amber-950";
+                iconDiv.className = "w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-amber-200";
+                tagEl.className = "text-[11px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-200 text-amber-900";
+                tagEl.textContent = "CONSERVATIVE DEMAND OUTLOOK";
+                headEl.textContent = "AI Suggestion: Review your marketing strategy.";
+                descEl.textContent = `The projected revenue of ₹${Math.round(predicted).toLocaleString('en-IN')} is below or at parity with the 3-month baseline (₹${Math.round(average).toLocaleString('en-IN')}). Recommended action: Audit promotional channels, run targeted customer discounts, and minimize excess inventory holding costs.`;
+            }
+
+            // Update Chart
+            updateChartData(s1, s2, s3, Math.round(predicted));
+        }
+
+        function updateMultiplierFromSlider() {
+            const slider = document.getElementById("growthSlider");
+            const val = parseFloat(slider.value);
+            state.sales.multiplier = val;
+
+            const pct = Math.round((val - 1) * 100);
+            const sign = pct >= 0 ? "+" : "";
+            document.getElementById("growthMultiplierLabel").textContent = `${sign}${pct}% (${val.toFixed(2)}x)`;
+            calculateSalesPrediction();
+        }
+
+        function loadSalesPreset(type) {
+            if (type === 'standard') {
+                document.getElementById("saleJan").value = 25000;
+                document.getElementById("saleFeb").value = 28000;
+                document.getElementById("saleMar").value = 31000;
+                document.getElementById("growthSlider").value = 1.10;
+            } else if (type === 'festival') {
+                document.getElementById("saleJan").value = 32000;
+                document.getElementById("saleFeb").value = 41000;
+                document.getElementById("saleMar").value = 54000;
+                document.getElementById("growthSlider").value = 1.25;
+            } else if (type === 'lean') {
+                document.getElementById("saleJan").value = 22000;
+                document.getElementById("saleFeb").value = 19000;
+                document.getElementById("saleMar").value = 17500;
+                document.getElementById("growthSlider").value = 0.95;
+            }
+            updateMultiplierFromSlider();
+            showToast("Preset Loaded", `Sales scenario '${type}' populated for simulation.`, "trending-up");
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            state.chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['January (Actual)', 'February (Actual)', 'March (Actual)', 'April (AI Forecast)'],
+                    datasets: [
+                        {
+                            label: 'Quarterly Sales Trend (₹)',
+                            data: [25000, 28000, 31000, 30800],
+                            borderColor: '#4f46e5',
+                            backgroundColor: 'rgba(79, 70, 229, 0.08)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.35,
+                            pointBackgroundColor: ['#4f46e5', '#4f46e5', '#4f46e5', '#10b981'],
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 2,
+                            pointRadius: [6, 6, 6, 8],
+                            pointHoverRadius: 9,
+                            segment: {
+                                borderDash: ctx => ctx.p0DataIndex === 2 ? [6, 6] : undefined,
+                                borderColor: ctx => ctx.p0DataIndex === 2 ? '#10b981' : '#4f46e5'
+                            }
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: '#0f172a',
+                            titleFont: { family: 'Plus Jakarta Sans', size: 12, weight: 'bold' },
+                            bodyFont: { family: 'Plus Jakarta Sans', size: 12 },
+                            padding: 10,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return ` Revenue: ₹${context.parsed.y.toLocaleString('en-IN')}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: { color: 'rgba(226, 232, 240, 0.6)' },
+                            ticks: {
+                                callback: val => '₹' + (val >= 1000 ? (val / 1000) + 'k' : val),
+                                font: { family: 'Plus Jakarta Sans', size: 11 }
+                            }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { family: 'Plus Jakarta Sans', size: 11, weight: 'bold' } }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateChartData(s1, s2, s3, predicted) {
+            if (!state.chartInstance) return;
+            state.chartInstance.data.datasets[0].data = [s1, s2, s3, predicted];
+            state.chartInstance.update();
+        }
+
+        // ==========================================
+        // MODULE 2: BILLING & CASH COUNTER LOGIC
+        // ==========================================
+        function renderCartTable() {
+            const tbody = document.getElementById("cartTableBody");
+            tbody.innerHTML = "";
+
+            if (state.billing.items.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="py-8 text-center text-slate-400">
+                            <i data-lucide="shopping-bag" class="w-8 h-8 mx-auto mb-2 text-slate-300"></i>
+                            Your cash counter is empty. Add products from the catalog.
+                        </td>
+                    </tr>
+                `;
+                lucide.createIcons();
+                recalculateCartTotals();
+                return;
+            }
+
+            state.billing.items.forEach((item, index) => {
+                // Python logic: total = price * quantity
+                const itemTotal = item.price * item.qty;
+                const tr = document.createElement("tr");
+                tr.className = "hover:bg-slate-50/80 transition";
+                tr.innerHTML = `
+                    <td class="py-3 font-semibold text-slate-800">${item.name}</td>
+                    <td class="py-3 text-right text-slate-600">₹${item.price.toFixed(2)}</td>
+                    <td class="py-3 text-center">
+                        <div class="inline-flex items-center space-x-1.5 bg-slate-100 rounded-lg p-1">
+                            <button onclick="changeCartQty(${item.id}, -1)" class="w-5 h-5 rounded bg-white text-slate-700 hover:bg-slate-200 flex items-center justify-center font-bold text-xs">-</button>
+                            <span class="w-6 text-center font-bold text-xs">${item.qty}</span>
+                            <button onclick="changeCartQty(${item.id}, 1)" class="w-5 h-5 rounded bg-white text-slate-700 hover:bg-slate-200 flex items-center justify-center font-bold text-xs">+</button>
+                        </div>
+                    </td>
+                    <td class="py-3 text-right font-bold text-slate-900">₹${itemTotal.toFixed(2)}</td>
+                    <td class="py-3 text-center">
+                        <button onclick="removeCartItem(${item.id})" class="text-slate-400 hover:text-rose-600 transition p-1">
+                            <i data-lucide="trash" class="w-4 h-4"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById("cartItemCountLabel").textContent = `${state.billing.items.length} ${state.billing.items.length === 1 ? 'Item' : 'Items'}`;
+            lucide.createIcons();
+            recalculateCartTotals();
+        }
+
+        function handleManualAddItem(e) {
+            e.preventDefault();
+            const name = document.getElementById("billProductName").value.trim();
+            const price = parseFloat(document.getElementById("billProductPrice").value) || 0;
+            const qty = parseInt(document.getElementById("billProductQty").value) || 1;
+
+            if (!name || price <= 0 || qty <= 0) return;
+
+            const newItem = {
+                id: Date.now(),
+                name: name,
+                price: price,
+                qty: qty
+            };
+
+            state.billing.items.push(newItem);
+            document.getElementById("addItemForm").reset();
+            document.getElementById("billProductQty").value = 1;
+            renderCartTable();
+            showToast("Item Added", `${name} added to cart.`, "plus");
+        }
+
+        function quickAddCart(name, price) {
+            const existing = state.billing.items.find(i => i.name === name);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                state.billing.items.push({
+                    id: Date.now(),
+                    name: name,
+                    price: price,
+                    qty: 1
+                });
+            }
+            renderCartTable();
+            showToast("Product Added", `${name} (₹${price}) added to invoice.`, "shopping-bag");
+        }
+
+        function changeCartQty(id, delta) {
+            const item = state.billing.items.find(i => i.id === id);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) {
+                removeCartItem(id);
+                return;
+            }
+            renderCartTable();
+        }
+
+        function removeCartItem(id) {
+            state.billing.items = state.billing.items.filter(i => i.id !== id);
+            renderCartTable();
+        }
+
+        function clearBillingCart() {
+            state.billing.items = [];
+            renderCartTable();
+            showToast("Cart Cleared", "All counter items removed.", "trash-2");
+        }
+
+        function recalculateCartTotals() {
+            const gstSelect = document.getElementById("billGstSelect");
+            state.billing.gstRate = parseFloat(gstSelect.value) || 0;
+
+            let subtotal = 0;
+            state.billing.items.forEach(item => {
+                subtotal += item.price * item.qty;
+            });
+
+            const gstAmount = (subtotal * state.billing.gstRate) / 100;
+            const grandTotal = subtotal + gstAmount;
+
+            document.getElementById("billSubtotalDisplay").textContent = `₹${subtotal.toFixed(2)}`;
+            document.getElementById("billGstAmountDisplay").textContent = `₹${gstAmount.toFixed(2)}`;
+            document.getElementById("billGrandTotalDisplay").textContent = `₹${grandTotal.toFixed(2)}`;
+        }
+
+        function openReceiptModal() {
+            if (state.billing.items.length === 0) {
+                showToast("Cart Empty", "Please add at least 1 product before generating receipt.", "alert-circle");
+                return;
+            }
+
+            // Populate receipt data
+            document.getElementById("receiptInvoiceNumber").textContent = `#SB-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+            document.getElementById("receiptCashierName").textContent = state.student.name;
+            document.getElementById("receiptStudentSchoolAffiliation").textContent = `${state.student.school} • Commerce Lab`;
+            document.getElementById("receiptDate").textContent = new Date().toLocaleDateString('en-GB');
+
+            const tbody = document.getElementById("receiptItemsBody");
+            tbody.innerHTML = "";
+            let subtotal = 0;
+
+            state.billing.items.forEach(item => {
+                const total = item.price * item.qty;
+                subtotal += total;
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td class="py-1 text-slate-800">${item.name}</td>
+                    <td class="py-1 text-center font-bold">${item.qty}</td>
+                    <td class="py-1 text-right">₹${item.price.toFixed(2)}</td>
+                    <td class="py-1 text-right font-bold">₹${total.toFixed(2)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            const gstAmount = (subtotal * state.billing.gstRate) / 100;
+            const grandTotal = subtotal + gstAmount;
+
+            document.getElementById("receiptSubtotal").textContent = `₹${subtotal.toFixed(2)}`;
+            document.getElementById("receiptGstPercentLabel").textContent = `GST Tax (${state.billing.gstRate}%):`;
+            document.getElementById("receiptGstAmount").textContent = `₹${gstAmount.toFixed(2)}`;
+            document.getElementById("receiptGrandTotal").textContent = `₹${grandTotal.toFixed(2)}`;
+
+            document.getElementById("receiptModal").classList.remove("hidden");
+
+            // Confetti celebration
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 50,
+                    spread: 60,
+                    origin: { y: 0.7 }
+                });
+            }
+        }
+
+        function closeReceiptModal() {
+            document.getElementById("receiptModal").classList.add("hidden");
+        }
+
+        function printOnlyReceipt() {
+            window.print();
+        }
+
+        // ==========================================
+        // MODULE 3: OFFERS & DISCOUNT ENGINE
+        // ==========================================
+        function calculateDiscountEngine() {
+            const inputEl = document.getElementById("discountInputAmount");
+            const amount = parseFloat(inputEl.value) || 0;
+
+            // Python decision logic:
+            // if amount >= 5000:
+            //     d = 20
+            // elif amount >= 3000:
+            //     d = 15
+            // elif amount >= 1000:
+            //     d = 10
+            // else:
+            //     d = 5
+            let d = 5;
+            let currentTier = 1;
+
+            if (amount >= 5000) {
+                d = 20;
+                currentTier = 4;
+            } else if (amount >= 3000) {
+                d = 15;
+                currentTier = 3;
+            } else if (amount >= 1000) {
+                d = 10;
+                currentTier = 2;
+            } else {
+                d = 5;
+                currentTier = 1;
+            }
+
+            const discountAmount = (amount * d) / 100;
+            const finalAmount = amount - discountAmount;
+
+            // Update DOM metrics
+            document.getElementById("discountRateBadge").textContent = `${d}% OFF`;
+            document.getElementById("discountSavingsDisplay").textContent = `₹${discountAmount.toFixed(2)}`;
+            document.getElementById("discountFinalPayableDisplay").textContent = `₹${finalAmount.toFixed(2)}`;
+
+            const tierNames = ["Base Standard Tier", "Bronze Tier Member", "Silver Tier Member", "Gold VIP Tier Member"];
+            document.getElementById("discountTierTitle").textContent = tierNames[currentTier - 1];
+
+            // Update Tier Cards visual highlights
+            for (let i = 1; i <= 4; i++) {
+                const card = document.getElementById(`tierCard${i}`);
+                const pill = card.querySelector(".tier-status-pill");
+
+                if (i === currentTier) {
+                    card.className = "p-3.5 rounded-xl border-2 transition flex items-center justify-between border-indigo-600 bg-indigo-50/70 shadow-sm scale-[1.01]";
+                    pill.className = "tier-status-pill text-xs font-bold px-2 py-0.5 rounded-full text-indigo-700 bg-indigo-200/70";
+                    pill.textContent = "CURRENT ACTIVE TIER";
+                } else {
+                    card.className = "p-3.5 rounded-xl border transition flex items-center justify-between border-slate-200 bg-white opacity-80";
+                    pill.className = "tier-status-pill text-xs font-semibold px-2 py-0.5 rounded-full text-slate-400 bg-slate-100";
+                    pill.textContent = i < currentTier ? "Unlocked" : "Locked";
+                }
+            }
+
+            // Progress to next tier
+            const progressBar = document.getElementById("tierProgressBar");
+            const diffLabel = document.getElementById("nextTierDiffLabel");
+            const tipEl = document.getElementById("tierProgressTip");
+
+            if (amount >= 5000) {
+                progressBar.style.width = "100%";
+                diffLabel.textContent = "Maximum Tier Achieved!";
+                tipEl.textContent = "Congratulations! You have unlocked the highest 20% Gold tier discount.";
+            } else if (amount >= 3000) {
+                const diff = 5000 - amount;
+                const progressPct = ((amount - 3000) / 2000) * 100;
+                progressBar.style.width = `${Math.max(10, progressPct)}%`;
+                diffLabel.textContent = `Add ₹${diff.toFixed(0)} for 20% (Gold)`;
+                tipEl.textContent = `Add ₹${diff.toFixed(0)} more to your purchase to upgrade to 20% Gold discount savings!`;
+            } else if (amount >= 1000) {
+                const diff = 3000 - amount;
+                const progressPct = ((amount - 1000) / 2000) * 100;
+                progressBar.style.width = `${Math.max(10, progressPct)}%`;
+                diffLabel.textContent = `Add ₹${diff.toFixed(0)} for 15% (Silver)`;
+                tipEl.textContent = `Add ₹${diff.toFixed(0)} more to upgrade from 10% to 15% discount.`;
+            } else {
+                const diff = 1000 - amount;
+                const progressPct = (amount / 1000) * 100;
+                progressBar.style.width = `${Math.max(5, progressPct)}%`;
+                diffLabel.textContent = `Add ₹${diff.toFixed(0)} for 10% (Bronze)`;
+                tipEl.textContent = `Add ₹${diff.toFixed(0)} more to jump from 5% to 10% discount.`;
+            }
+        }
+
+        function setDiscountAmount(val) {
+            document.getElementById("discountInputAmount").value = val;
+            calculateDiscountEngine();
+        }
+
+        // ==========================================
+        // MODULE 4: STOCK MANAGEMENT LOGIC
+        // ==========================================
+        function runSingleStockTest() {
+            const name = document.getElementById("testStockName").value;
+            const qty = parseInt(document.getElementById("testStockQty").value) || 0;
+
+            const resultCard = document.getElementById("singleStockResultCard");
+            const indicator = document.getElementById("testStockIndicator");
+            const badge = document.getElementById("testStockStatusBadge");
+            const consoleOutput = document.getElementById("testStockConsoleOutput");
+
+            // Python logic:
+            // if quantity <= 5:
+            //     print("AI Suggestion: Low stock! Reorder soon.")
+            // else:
+            //     print("Stock level is sufficient.")
+            if (qty <= 5) {
+                resultCard.className = "mt-4 p-4 rounded-xl border transition bg-rose-50 border-rose-200";
+                indicator.className = "w-3 h-3 rounded-full bg-rose-500 animate-pulse";
+                badge.className = "text-xs font-bold uppercase tracking-wider text-rose-700";
+                badge.textContent = "Low Stock! Reorder Soon";
+                consoleOutput.className = "text-xs text-rose-900 mt-1 font-mono";
+                consoleOutput.textContent = `AI Suggestion: Low stock for ${name}! Reorder soon. (Qty: ${qty} <= 5)`;
+            } else {
+                resultCard.className = "mt-4 p-4 rounded-xl border transition bg-emerald-50 border-emerald-200";
+                indicator.className = "w-3 h-3 rounded-full bg-emerald-500";
+                badge.className = "text-xs font-bold uppercase tracking-wider text-emerald-700";
+                badge.textContent = "Stock Level is Sufficient";
+                consoleOutput.className = "text-xs text-emerald-900 mt-1 font-mono";
+                consoleOutput.textContent = `AI Suggestion: Stock level is sufficient for ${name}. (Qty: ${qty} > 5)`;
+            }
+        }
+
+        function renderInventoryTable() {
+            const tbody = document.getElementById("inventoryTableBody");
+            tbody.innerHTML = "";
+
+            let lowStockCount = 0;
+            const lowStockNames = [];
+
+            state.inventory.forEach(item => {
+                const isLow = item.qty <= 5;
+                if (isLow) {
+                    lowStockCount++;
+                    lowStockNames.push(`${item.name} (${item.qty} units)`);
+                }
+
+                const tr = document.createElement("tr");
+                tr.className = "hover:bg-slate-50 transition";
+                tr.innerHTML = `
+                    <td class="py-3 font-semibold text-slate-800">${item.name}</td>
+                    <td class="py-3 text-slate-500"><span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-xs">${item.category}</span></td>
+                    <td class="py-3 text-center font-bold text-slate-900">${item.qty}</td>
+                    <td class="py-3">
+                        ${isLow 
+                            ? `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-rose-100 text-rose-700 border border-rose-200">
+                                 <span class="w-1.5 h-1.5 rounded-full bg-rose-600 mr-1.5 animate-ping"></span> Low Stock (Reorder)
+                               </span>`
+                            : `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 border border-emerald-200">
+                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 mr-1.5"></span> Sufficient
+                               </span>`
+                        }
+                    </td>
+                    <td class="py-3 text-right">
+                        <div class="inline-flex items-center space-x-1">
+                            <button onclick="adjustInventoryQty(${item.id}, -1)" title="Record 1 Unit Sale" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">- Sale</button>
+                            <button onclick="adjustInventoryQty(${item.id}, 5)" title="Restock +5 Units" class="px-2 py-1 rounded bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition">+ Restock</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Update Low Stock Banner
+            const badgeCountEl = document.getElementById("lowStockBadgeCount");
+            badgeCountEl.textContent = lowStockCount;
+
+            const banner = document.getElementById("urgentStockBanner");
+            const namesEl = document.getElementById("lowStockItemsNames");
+
+            if (lowStockCount > 0) {
+                banner.classList.remove("hidden");
+                namesEl.innerHTML = `Low stock detected for: <strong>${lowStockNames.join(', ')}</strong>. Replenish immediately to prevent sales interruption.`;
+            } else {
+                banner.classList.add("hidden");
+            }
+        }
+
+        function adjustInventoryQty(id, delta) {
+            const item = state.inventory.find(i => i.id === id);
+            if (!item) return;
+            item.qty = Math.max(0, item.qty + delta);
+            renderInventoryTable();
+            runSingleStockTest();
+
+            if (delta < 0) {
+                showToast("Stock Dispatched", `1 unit of ${item.name} sold.`, "shopping-cart");
+            } else {
+                showToast("Restocked", `+${delta} units added to ${item.name}.`, "boxes");
+            }
+        }
+
+        function openAddStockModal() {
+            document.getElementById("addStockModal").classList.remove("hidden");
+        }
+
+        function closeAddStockModal() {
+            document.getElementById("addStockModal").classList.add("hidden");
+        }
+
+        function handleAddNewInventory(e) {
+            e.preventDefault();
+            const name = document.getElementById("newInvName").value.trim();
+            const category = document.getElementById("newInvCategory").value;
+            const qty = parseInt(document.getElementById("newInvQty").value) || 0;
+
+            if (!name) return;
+
+            state.inventory.unshift({
+                id: Date.now(),
+                name: name,
+                category: category,
+                qty: qty
+            });
+
+            closeAddStockModal();
+            renderInventoryTable();
+            showToast("Product Added", `${name} (${qty} units) entered into stock.`, "package-plus");
+            document.getElementById("newInvName").value = "";
+        }
+
+        // ==========================================
+        // STUDENT PROFILE MODAL & PRINT HANDLERS
+        // ==========================================
+        function openStudentModal() {
+            document.getElementById("modalInputStudentName").value = state.student.name;
+            document.getElementById("modalInputStudentClass").value = state.student.classSection;
+            document.getElementById("modalInputStudentRoll").value = state.student.rollNo;
+            document.getElementById("modalInputSchoolName").value = state.student.school;
+            document.getElementById("modalInputTeacherName").value = state.student.teacher;
+            document.getElementById("studentModal").classList.remove("hidden");
+        }
+
+        function closeStudentModal() {
+            document.getElementById("studentModal").classList.add("hidden");
+        }
+
+        function saveStudentProfile(e) {
+            e.preventDefault();
+            state.student.name = document.getElementById("modalInputStudentName").value.trim();
+            state.student.classSection = document.getElementById("modalInputStudentClass").value.trim();
+            state.student.rollNo = document.getElementById("modalInputStudentRoll").value.trim();
+            state.student.school = document.getElementById("modalInputSchoolName").value.trim();
+            state.student.teacher = document.getElementById("modalInputTeacherName").value.trim();
+
+            // Update UI elements
+            document.getElementById("headerStudentSummary").textContent = `Student: ${state.student.name} (${state.student.classSection})`;
+            document.getElementById("cardStudentName").textContent = state.student.name;
+            document.getElementById("cardStudentClass").textContent = state.student.classSection;
+            document.getElementById("cardStudentRoll").textContent = `Roll No: ${state.student.rollNo}`;
+            document.getElementById("cardSchoolName").innerHTML = `<i data-lucide="school" class="w-3.5 h-3.5 mr-1 text-slate-400"></i> ${state.student.school} • Business Studies Project`;
+            document.getElementById("cardTeacherName").textContent = state.student.teacher;
+
+            // Initials avatar
+            const initials = state.student.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            document.getElementById("studentAvatarInitials").textContent = initials || "AS";
+
+            closeStudentModal();
+            lucide.createIcons();
+            showToast("Credentials Updated", "Student details customized for school presentation.", "award");
+        }
+
+        function printReport() {
+            window.print();
+        }
+
+        // ==========================================
+        // WINDOW ONLOAD INITIALIZATION
+        // ==========================================
+        window.onload = function () {
+            // Render initial state
+            initChart();
+            calculateSalesPrediction();
+            renderCartTable();
+            calculateDiscountEngine();
+            renderInventoryTable();
+            runSingleStockTest();
+
+            // Initialize Lucide Icons
+            lucide.createIcons();
+        };
+    </script>
+    <!-- Mobile Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 w-full bg-white border-t border-slate-200 z-50 px-2 py-2 flex justify-between items-center shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+        <button onclick="switchTab('tab-sales')" id="mobile-nav-tab-sales" class="mobile-tab-btn text-indigo-600 flex flex-col items-center justify-center w-full space-y-1">
+            <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+            <span class="text-[10px] font-medium">Sales</span>
+        </button>
+        <button onclick="switchTab('tab-billing')" id="mobile-nav-tab-billing" class="mobile-tab-btn text-slate-500 flex flex-col items-center justify-center w-full space-y-1">
+            <i data-lucide="receipt" class="w-5 h-5"></i>
+            <span class="text-[10px] font-medium">POS</span>
+        </button>
+        <button onclick="switchTab('tab-discount')" id="mobile-nav-tab-discount" class="mobile-tab-btn text-slate-500 flex flex-col items-center justify-center w-full space-y-1">
+            <i data-lucide="tags" class="w-5 h-5"></i>
+            <span class="text-[10px] font-medium">Offers</span>
+        </button>
+        <button onclick="switchTab('tab-stock')" id="mobile-nav-tab-stock" class="mobile-tab-btn text-slate-500 flex flex-col items-center justify-center w-full space-y-1 relative">
+            <i data-lucide="boxes" class="w-5 h-5"></i>
+            <span class="text-[10px] font-medium">Stock</span>
+            <span id="mobileLowStockBadge" class="absolute top-0 right-4 w-2 h-2 rounded-full bg-rose-500 border border-white"></span>
+        </button>
+    </nav>
+</body>
+</html>
